@@ -9,7 +9,7 @@
 **原生 Swift 6 打造的 macOS 极客桌面透明悬浮性能监控工具**  
 *100% 鼠标穿透 · 按住 `⌥ Option` 随手拖拽 · 免 `sudo` 直读 Apple Silicon CPU/GPU/温度/风扇/功耗*
 
-**🇨🇳 简体中文** | [**🇺🇸 English**](README_EN.md)
+**🇨🇳 简体中文** | [**🇭🇰 繁體中文**](docs/README_ZH-HANT.md) | [**🇺🇸 English**](README_EN.md) | [**🇯🇵 日本語**](docs/README_JA.md) | [**🇰🇷 한국어**](docs/README_KO.md) | [**🇪🇸 Español**](docs/README_ES.md) | [**🇫🇷 Français**](docs/README_FR.md) | [**🇩🇪 Deutsch**](docs/README_DE.md)
 
 [![Swift 6](https://img.shields.io/badge/Swift-6.0+-F05138?style=flat-square&logo=swift&logoColor=white)](https://swift.org)
 [![macOS 13+](https://img.shields.io/badge/Platform-macOS%2013.0+-000000?style=flat-square&logo=apple&logoColor=white)](https://www.apple.com/macos)
@@ -45,6 +45,8 @@
 5. **🛡️ 零内存泄漏与息屏零功耗**
    - 每次调用 Mach `host_processor_info` 后严格执行 `vm_deallocate` 释放内核页；Top 进程采用原生 `<libproc.h>` 每 3 秒低频增量采样（绝不拉起外部 `ps` 进程）。
    - 监听系统息屏通知（`screensDidSleep`）自动 100% 暂停定时器；外接显示器拔出时自动将悬浮窗吸附回主屏幕可视区。
+6. **🌐 内置 8 国常用语言实时热切换**
+   - 默认自动跟随 macOS 系统语言，并支持在顶部菜单栏一键无感切换：**简体中文、繁體中文、English、日本語、한국어、Español、Français、Deutsch**。
 
 ---
 

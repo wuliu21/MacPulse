@@ -9,7 +9,7 @@
 **Native Swift 6 macOS Desktop Floating Transparent Performance Monitor**  
 *100% Click-Through · Hold `⌥ Option` to Drag Anytime · Rootless Apple Silicon CPU/GPU/Temp/Fan/Power Telemetry*
 
-[**🇨🇳 简体中文**](README.md) | **🇺🇸 English**
+[**🇨🇳 简体中文**](README.md) | [**🇭🇰 繁體中文**](docs/README_ZH-HANT.md) | **🇺🇸 English** | [**🇯🇵 日本語**](docs/README_JA.md) | [**🇰🇷 한국어**](docs/README_KO.md) | [**🇪🇸 Español**](docs/README_ES.md) | [**🇫🇷 Français**](docs/README_FR.md) | [**🇩🇪 Deutsch**](docs/README_DE.md)
 
 [![Swift 6](https://img.shields.io/badge/Swift-6.0+-F05138?style=flat-square&logo=swift&logoColor=white)](https://swift.org)
 [![macOS 13+](https://img.shields.io/badge/Platform-macOS%2013.0+-000000?style=flat-square&logo=apple&logoColor=white)](https://www.apple.com/macos)
