@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" width="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b101b"/>
+      <stop offset="50%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0d1322"/>
+    </linearGradient>
+    <linearGradient id="hudBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141c2b" stop-opacity="0.82"/>
+      <stop offset="100%" stop-color="#0b1019" stop-opacity="0.88"/>
+    </linearGradient>
+    <linearGradient id="mintFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3debbf" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#3debbf" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="cyanFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#61d9ff" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#61d9ff" stop-opacity="0.02"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.65"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="960" height="440" rx="18" fill="url(#bgGrad)"/>
+  <circle cx="800" cy="90" r="180" fill="#3debbf" opacity="0.06"/>
+  <circle cx="180" cy="360" r="210" fill="#61d9ff" opacity="0.06"/>
+
+  <!-- Left Title & Feature Highlights -->
+  <g transform="translate(56, 68)">
+    <rect x="0" y="0" width="142" height="26" rx="13" fill="#3debbf" fill-opacity="0.12" stroke="#3debbf" stroke-opacity="0.4"/>
+    <circle cx="15" cy="13" r="4" fill="#3debbf"/>
+    <text x="27" y="17" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="700">NATIVE SWIFT 6</text>
+
+    <text x="0" y="72" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="40" font-weight="800" letter-spacing="-0.5">MacPulse HUD</text>
+    <text x="0" y="106" fill="#9ca3af" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="16" font-weight="500">macOS 极客桌面悬浮透明性能监控 · 零特权直读底层硬件</text>
+
+    <!-- Feature Pills -->
+    <g transform="translate(0, 136)" font-family="SF Mono, Menlo, monospace" font-size="12" fill="#e5e7eb">
+      <rect x="0" y="0" width="430" height="36" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="14" y="23">🎯 <tspan fill="#3debbf" font-weight="700">100% 鼠标穿透</tspan> · 按住 <tspan fill="#fbbf24" font-weight="700">⌥ Option</tspan> 键随时唤醒拖拽定位</text>
+
+      <rect x="0" y="46" width="430" height="36" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="14" y="69">⚡ <tspan fill="#61d9ff" font-weight="700">Apple Silicon 深度适配</tspan> · P/E 核拆分 + GPU + 功耗瓦数</text>
+
+      <rect x="0" y="92" width="430" height="36" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="14" y="115">🌡️ <tspan fill="#a78bfa" font-weight="700">免 sudo 密码</tspan> · AppleSMC / IOHID 核心温度与双风扇转速</text>
+    </g>
+
+    <!-- Compact Pill Preview -->
+    <g transform="translate(0, 294)" filter="url(#shadow)">
+      <rect x="0" y="0" width="458" height="38" rx="19" fill="url(#hudBg)" stroke="#ffffff" stroke-opacity="0.18"/>
+      <circle cx="18" cy="19" r="4" fill="#3debbf"/>
+      <text x="30" y="23" font-family="SF Mono, Menlo, monospace" font-size="11.5" fill="#ffffff">
+        <tspan fill="#9ca3af" font-weight="700">CPU</tspan> <tspan fill="#3debbf" font-weight="700">14.2%</tspan> <tspan fill="#61d9ff">38°</tspan>
+        <tspan fill="#4b5563"> | </tspan>
+        <tspan fill="#9ca3af" font-weight="700">GPU</tspan> <tspan fill="#3debbf" font-weight="700">19.0%</tspan>
+        <tspan fill="#4b5563"> | </tspan>
+        <tspan fill="#9ca3af" font-weight="700">RAM</tspan> <tspan fill="#3debbf" font-weight="700">14.8G</tspan>
+        <tspan fill="#4b5563"> | </tspan>
+        <tspan fill="#fbbf24" font-weight="700">⚡6.4W</tspan>
+      </text>
+    </g>
+  </g>
+
+  <!-- Right Floating HUD Dashboard Mockup -->
+  <g transform="translate(576, 32)" filter="url(#shadow)">
+    <rect x="0" y="0" width="328" height="376" rx="16" fill="url(#hudBg)" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+
+    <!-- Header -->
+    <circle cx="22" cy="24" r="4" fill="#3debbf"/>
+    <text x="34" y="28" fill="#ffffff" font-family="SF Mono, Menlo, monospace" font-size="11.5" font-weight="800" letter-spacing="1.2">MACPULSE</text>
+    <rect x="112" y="15" width="54" height="18" rx="9" fill="#ffffff" fill-opacity="0.08"/>
+    <text x="119" y="27" fill="#fbbf24" font-family="SF Mono, Menlo, monospace" font-size="10" font-weight="700">⚡ 6.4W</text>
+    <text x="218" y="27" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="9.5">🔒穿透 · ⌥拖拽</text>
+    <line x1="16" y1="42" x2="312" y2="42" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <!-- CPU Section -->
+    <text x="16" y="62" fill="#ffffff" font-family="SF Mono, Menlo, monospace" font-size="12" font-weight="700">CPU <tspan fill="#9ca3af" font-size="10" font-weight="500">8P+4E</tspan></text>
+    <text x="208" y="62" fill="#61d9ff" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="600">39.5°C</text>
+    <text x="262" y="62" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="700">18.4%</text>
+
+    <!-- CPU Sparkline Box -->
+    <rect x="16" y="70" width="296" height="36" rx="6" fill="#000000" fill-opacity="0.28" stroke="#ffffff" stroke-opacity="0.08"/>
+    <path d="M16 98 L46 94 L76 96 L106 86 L136 90 L166 78 L196 84 L226 89 L256 76 L286 82 L312 80 L312 106 L16 106 Z" fill="url(#mintFill)"/>
+    <path d="M16 98 L46 94 L76 96 L106 86 L136 90 L166 78 L196 84 L226 89 L256 76 L286 82 L312 80" fill="none" stroke="#3debbf" stroke-width="1.8"/>
+    <circle cx="312" cy="80" r="3" fill="#3debbf"/>
+
+    <!-- P/E Bars -->
+    <text x="16" y="122" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="10">P核</text>
+    <rect x="44" y="115" width="76" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.1"/>
+    <rect x="44" y="115" width="22" height="5" rx="2.5" fill="#3debbf"/>
+    <text x="126" y="122" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="10">14%</text>
+
+    <text x="168" y="122" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="10">E核</text>
+    <rect x="196" y="115" width="76" height="5" rx="2.5" fill="#ffffff" fill-opacity="0.1"/>
+    <rect x="196" y="115" width="34" height="5" rx="2.5" fill="#61d9ff"/>
+    <text x="278" y="122" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="10">28%</text>
+
+    <line x1="16" y1="134" x2="312" y2="134" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <!-- GPU Section -->
+    <text x="16" y="154" fill="#ffffff" font-family="SF Mono, Menlo, monospace" font-size="12" font-weight="700">GPU <tspan fill="#9ca3af" font-size="10" font-weight="500">显存 612M</tspan></text>
+    <text x="208" y="154" fill="#61d9ff" font-family="SF Mono, Menlo, monospace" font-size="11" font-weight="600">41.2°C</text>
+    <text x="262" y="154" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="700">21.0%</text>
+
+    <rect x="16" y="162" width="296" height="34" rx="6" fill="#000000" fill-opacity="0.28" stroke="#ffffff" stroke-opacity="0.08"/>
+    <path d="M16 190 L56 186 L96 188 L136 176 L176 182 L216 172 L256 179 L296 174 L312 175 L312 196 L16 196 Z" fill="url(#cyanFill)"/>
+    <path d="M16 190 L56 186 L96 188 L136 176 L176 182 L216 172 L256 179 L296 174 L312 175" fill="none" stroke="#61d9ff" stroke-width="1.8"/>
+    <circle cx="312" cy="175" r="3" fill="#61d9ff"/>
+
+    <line x1="16" y1="208" x2="312" y2="208" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <!-- Memory Section -->
+    <text x="16" y="228" fill="#ffffff" font-family="SF Mono, Menlo, monospace" font-size="12" font-weight="700">内存 <tspan fill="#3debbf" font-size="10">压力:正常</tspan></text>
+    <text x="186" y="228" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="11">14.8 / 24 GB</text>
+    <text x="276" y="228" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="13" font-weight="700">62%</text>
+    <rect x="16" y="236" width="296" height="6" rx="3" fill="#ffffff" fill-opacity="0.1"/>
+    <rect x="16" y="236" width="184" height="6" rx="3" fill="#3debbf"/>
+    <text x="16" y="256" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="10">联动:3.2G        压缩:1.4G        Swap:0M</text>
+
+    <line x1="16" y1="266" x2="312" y2="266" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <!-- Fan & Net & Top Process -->
+    <text x="16" y="284" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="10.5">🌀 风扇(2): 0 RPM (静音停转)</text>
+    <text x="252" y="284" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="10.5">SSD 30°C</text>
+
+    <line x1="16" y1="294" x2="312" y2="294" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <text x="16" y="312" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="10.5" font-weight="700">🌐 网络</text>
+    <text x="165" y="312" fill="#61d9ff" font-family="SF Mono, Menlo, monospace" font-size="10.5" font-weight="600">↓ 4.8 M/s</text>
+    <text x="245" y="312" fill="#a78bfa" font-family="SF Mono, Menlo, monospace" font-size="10.5" font-weight="600">↑ 320 K/s</text>
+
+    <line x1="16" y1="322" x2="312" y2="322" stroke="#ffffff" stroke-opacity="0.1"/>
+
+    <text x="16" y="338" fill="#9ca3af" font-family="SF Mono, Menlo, monospace" font-size="10" font-weight="700">TOP 进程 (3s)</text>
+    <text x="16" y="354" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="10.5">WindowServer</text>
+    <text x="268" y="354" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="10.5" font-weight="700"> 8.4%</text>
+    <text x="16" y="368" fill="#e5e7eb" font-family="SF Mono, Menlo, monospace" font-size="10.5">Xcode</text>
+    <text x="268" y="368" fill="#3debbf" font-family="SF Mono, Menlo, monospace" font-size="10.5" font-weight="700"> 4.1%</text>
+  </g>
+</svg>
