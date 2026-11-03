@@ -137,6 +137,13 @@ public final class HUDSettings: ObservableObject {
     @Published public var showMenuBarLiveText: Bool {
         didSet { UserDefaults.standard.set(showMenuBarLiveText, forKey: "hud.showMenuBarLiveText") }
     }
+    @Published public var language: AppLanguage {
+        didSet { UserDefaults.standard.set(language.rawValue, forKey: "hud.language") }
+    }
+
+    public var l10n: L10n {
+        L10n.forLanguage(language)
+    }
 
     public var effectiveClickThrough: Bool {
         isClickThroughLocked && !isOptionKeyTemporarilyHeld
@@ -170,6 +177,9 @@ public final class HUDSettings: ObservableObject {
         self.showNetworkAndDisk = defaults.object(forKey: "hud.showNetworkAndDisk") == nil ? true : defaults.bool(forKey: "hud.showNetworkAndDisk")
         self.showTopProcesses = defaults.object(forKey: "hud.showTopProcesses") == nil ? true : defaults.bool(forKey: "hud.showTopProcesses")
         self.showMenuBarLiveText = defaults.object(forKey: "hud.showMenuBarLiveText") == nil ? true : defaults.bool(forKey: "hud.showMenuBarLiveText")
+
+        let langStr = defaults.string(forKey: "hud.language") ?? AppLanguage.system.rawValue
+        self.language = AppLanguage(rawValue: langStr) ?? .system
     }
 }
 

@@ -61,17 +61,18 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
     }
 
     private func rebuildMenu() {
+        let t = settings.l10n
         let menu = NSMenu()
         menu.delegate = self
 
-        let titleItem = NSMenuItem(title: "MacPulse 桌面性能监控", action: nil, keyEquivalent: "")
+        let titleItem = NSMenuItem(title: t.menuAppTitle, action: nil, keyEquivalent: "")
         titleItem.isEnabled = false
         menu.addItem(titleItem)
         menu.addItem(.separator())
 
         // 1. Show / Hide HUD
         let visibleItem = NSMenuItem(
-            title: panel.isVisible ? "隐藏桌面悬浮窗" : "显示桌面悬浮窗",
+            title: panel.isVisible ? t.menuHideHUD : t.menuShowHUD,
             action: #selector(togglePanelVisibility),
             keyEquivalent: "h"
         )
@@ -80,7 +81,7 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
 
         // 2. Lock / Unlock Click-through
         let lockItem = NSMenuItem(
-            title: "锁定鼠标穿透 (按住 ⌥ 可临时拖拽)",
+            title: t.menuLockClickThrough,
             action: #selector(toggleClickThroughLock),
             keyEquivalent: "l"
         )
@@ -89,7 +90,7 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(lockItem)
 
         let resetPosItem = NSMenuItem(
-            title: "重置悬浮窗到右上角默认位置",
+            title: t.menuResetPosition,
             action: #selector(resetPosition),
             keyEquivalent: "r"
         )
@@ -99,12 +100,16 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(.separator())
 
         // 3. Display Mode
-        let modeHeader = NSMenuItem(title: "视图模式", action: nil, keyEquivalent: "")
+        let modeHeader = NSMenuItem(title: t.menuSectionViewMode, action: nil, keyEquivalent: "")
         modeHeader.isEnabled = false
         menu.addItem(modeHeader)
 
-        for mode in HUDDisplayMode.allCases {
-            let item = NSMenuItem(title: mode.title, action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
+        let modes: [(HUDDisplayMode, String)] = [
+            (.dashboard, t.modeDashboard),
+            (.compact, t.modeCompact)
+        ]
+        for (mode, modeTitle) in modes {
+            let item = NSMenuItem(title: modeTitle, action: #selector(selectDisplayMode(_:)), keyEquivalent: "")
             item.target = self
             item.representedObject = mode.rawValue
             item.state = (settings.displayMode == mode) ? .on : .off
@@ -114,12 +119,16 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
         menu.addItem(.separator())
 
         // 4. Window Layer
-        let layerHeader = NSMenuItem(title: "桌面层级", action: nil, keyEquivalent: "")
+        let layerHeader = NSMenuItem(title: t.menuSectionWindowLayer, action: nil, keyEquivalent: "")
         layerHeader.isEnabled = false
         menu.addItem(layerHeader)
 
-        for layer in HUDWindowLayer.allCases {
-            let item = NSMenuItem(title: layer.title, action: #selector(selectWindowLayer(_:)), keyEquivalent: "")
+        let layers: [(HUDWindowLayer, String)] = [
+            (.floatingTop, t.layerFloatingTop),
+            (.desktopWallpaper, t.layerDesktopWallpaper)
+        ]
+        for (layer, layerTitle) in layers {
+            let item = NSMenuItem(title: layerTitle, action: #selector(selectWindowLayer(_:)), keyEquivalent: "")
             item.target = self
             item.representedObject = layer.rawValue
             item.state = (settings.windowLayer == layer) ? .on : .off
@@ -128,14 +137,14 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
 
         menu.addItem(.separator())
 
-        // 5. Background Opacity Submenu & Slider
+        // 5. Background Opacity Submenu
         let opacityMenu = NSMenu()
         let presets: [(String, Double)] = [
-            ("0% · 纯全透明 (仅发光文字)", 0.0),
-            ("22% · 极高通透玻璃", 0.22),
-            ("42% · 标准极客熏黑 (推荐)", 0.42),
-            ("65% · 深邃磨砂卡片", 0.65),
-            ("88% · 高对比不透明", 0.88)
+            (t.opacityPreset0, 0.0),
+            (t.opacityPreset22, 0.22),
+            (t.opacityPreset42, 0.42),
+            (t.opacityPreset65, 0.65),
+            (t.opacityPreset88, 0.88)
         ]
         for (label, val) in presets {
             let item = NSMenuItem(title: label, action: #selector(selectOpacityPreset(_:)), keyEquivalent: "")
@@ -145,7 +154,7 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
             opacityMenu.addItem(item)
         }
         let opacityParent = NSMenuItem(
-            title: String(format: "背景透明度 (当前 %.0f%%)", settings.backgroundOpacity * 100),
+            title: String(format: t.menuOpacityTitleFormat, settings.backgroundOpacity * 100),
             action: nil,
             keyEquivalent: ""
         )
@@ -154,41 +163,41 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
 
         // 6. Modules Submenu
         let modulesMenu = NSMenu()
-        let perCoreItem = NSMenuItem(title: "CPU 单核负载柱状条", action: #selector(togglePerCoreBars), keyEquivalent: "")
+        let perCoreItem = NSMenuItem(title: t.modulePerCoreBars, action: #selector(togglePerCoreBars), keyEquivalent: "")
         perCoreItem.target = self
         perCoreItem.state = settings.showPerCoreBars ? .on : .off
         modulesMenu.addItem(perCoreItem)
 
-        let thermalItem = NSMenuItem(title: "风扇转速与 SSD 温度模块", action: #selector(toggleThermalAndPower), keyEquivalent: "")
+        let thermalItem = NSMenuItem(title: t.moduleThermalFan, action: #selector(toggleThermalAndPower), keyEquivalent: "")
         thermalItem.target = self
         thermalItem.state = settings.showThermalAndPower ? .on : .off
         modulesMenu.addItem(thermalItem)
 
-        let netDiskItem = NSMenuItem(title: "实时网速与磁盘读写模块", action: #selector(toggleNetworkAndDisk), keyEquivalent: "")
+        let netDiskItem = NSMenuItem(title: t.moduleNetworkDisk, action: #selector(toggleNetworkAndDisk), keyEquivalent: "")
         netDiskItem.target = self
         netDiskItem.state = settings.showNetworkAndDisk ? .on : .off
         modulesMenu.addItem(netDiskItem)
 
-        let topProcItem = NSMenuItem(title: "Top 3 高占用进程模块", action: #selector(toggleTopProcesses), keyEquivalent: "")
+        let topProcItem = NSMenuItem(title: t.moduleTopProcesses, action: #selector(toggleTopProcesses), keyEquivalent: "")
         topProcItem.target = self
         topProcItem.state = settings.showTopProcesses ? .on : .off
         modulesMenu.addItem(topProcItem)
 
-        let menuBarTextItem = NSMenuItem(title: "顶部菜单栏显示 CPU/GPU 百分比", action: #selector(toggleMenuBarText), keyEquivalent: "")
+        let menuBarTextItem = NSMenuItem(title: t.moduleMenuBarText, action: #selector(toggleMenuBarText), keyEquivalent: "")
         menuBarTextItem.target = self
         menuBarTextItem.state = settings.showMenuBarLiveText ? .on : .off
         modulesMenu.addItem(menuBarTextItem)
 
-        let modulesParent = NSMenuItem(title: "显示指标模块开关", action: nil, keyEquivalent: "")
+        let modulesParent = NSMenuItem(title: t.menuModulesTitle, action: nil, keyEquivalent: "")
         modulesParent.submenu = modulesMenu
         menu.addItem(modulesParent)
 
         // 7. Refresh Interval Submenu
         let refreshMenu = NSMenu()
         let intervals: [(String, Double)] = [
-            ("0.5 秒 (极速刷新)", 0.5),
-            ("1.0 秒 (标准平衡 · 推荐)", 1.0),
-            ("2.0 秒 (省电低功耗)", 2.0)
+            (t.refresh05s, 0.5),
+            (t.refresh10s, 1.0),
+            (t.refresh20s, 2.0)
         ]
         for (label, sec) in intervals {
             let item = NSMenuItem(title: label, action: #selector(selectRefreshInterval(_:)), keyEquivalent: "")
@@ -198,16 +207,29 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
             refreshMenu.addItem(item)
         }
         let refreshParent = NSMenuItem(
-            title: String(format: "采样频率 (%.1f 秒)", settings.refreshInterval),
+            title: String(format: t.menuRefreshTitleFormat, settings.refreshInterval),
             action: nil,
             keyEquivalent: ""
         )
         refreshParent.submenu = refreshMenu
         menu.addItem(refreshParent)
 
+        // 8. Language Submenu
+        let langMenu = NSMenu()
+        for lang in AppLanguage.allCases {
+            let item = NSMenuItem(title: lang.displayName, action: #selector(selectLanguage(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = lang.rawValue
+            item.state = (settings.language == lang) ? .on : .off
+            langMenu.addItem(item)
+        }
+        let langParent = NSMenuItem(title: t.menuLanguageTitle, action: nil, keyEquivalent: "")
+        langParent.submenu = langMenu
+        menu.addItem(langParent)
+
         menu.addItem(.separator())
 
-        let quitItem = NSMenuItem(title: "退出 MacPulse", action: #selector(quitApp), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: t.menuQuit, action: #selector(quitApp), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
 
@@ -273,6 +295,12 @@ public final class StatusBarController: NSObject, NSMenuDelegate {
     @objc private func selectRefreshInterval(_ sender: NSMenuItem) {
         guard let sec = sender.representedObject as? Double else { return }
         settings.refreshInterval = sec
+    }
+
+    @objc private func selectLanguage(_ sender: NSMenuItem) {
+        guard let raw = sender.representedObject as? String,
+              let lang = AppLanguage(rawValue: raw) else { return }
+        settings.language = lang
     }
 
     @objc private func quitApp() {

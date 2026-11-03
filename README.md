@@ -9,9 +9,12 @@
 **原生 Swift 6 打造的 macOS 极客桌面透明悬浮性能监控工具**  
 *100% 鼠标穿透 · 按住 `⌥ Option` 随手拖拽 · 免 `sudo` 直读 Apple Silicon CPU/GPU/温度/风扇/功耗*
 
+**🇨🇳 简体中文** | [**🇺🇸 English**](README_EN.md)
+
 [![Swift 6](https://img.shields.io/badge/Swift-6.0+-F05138?style=flat-square&logo=swift&logoColor=white)](https://swift.org)
 [![macOS 13+](https://img.shields.io/badge/Platform-macOS%2013.0+-000000?style=flat-square&logo=apple&logoColor=white)](https://www.apple.com/macos)
 [![Apple Silicon](https://img.shields.io/badge/Architecture-Apple%20Silicon%20%26%20Intel-3debbf?style=flat-square)](https://developer.apple.com)
+[![i18n](https://img.shields.io/badge/i18n-8%20Languages-a78bfa?style=flat-square)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%203rd--Party-61d9ff?style=flat-square)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-fbbf24?style=flat-square)](LICENSE)
 

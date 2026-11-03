@@ -144,7 +144,8 @@ public struct HUDRootView: View {
     // MARK: - Sections
 
     private func headerSection(snap: SystemSnapshot) -> some View {
-        HStack(spacing: 6) {
+        let t = settings.l10n
+        return HStack(spacing: 6) {
             Circle()
                 .fill(settings.effectiveClickThrough ? Color(red: 0.24, green: 0.92, blue: 0.75) : Color.orange)
                 .frame(width: 7, height: 7)
@@ -170,11 +171,11 @@ public struct HUDRootView: View {
             Spacer()
 
             if settings.effectiveClickThrough {
-                Text("🔒穿透 · ⌥拖拽")
+                Text(t.lockClickThroughBadge)
                     .font(.system(size: 9.5, weight: .medium, design: .monospaced))
                     .foregroundColor(.white.opacity(0.50))
             } else {
-                Text("🔓可拖拽移动")
+                Text(t.unlockedDraggableBadge)
                     .font(.system(size: 9.5, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.orange)
                     .padding(.horizontal, 6)
@@ -185,6 +186,7 @@ public struct HUDRootView: View {
     }
 
     private func cpuSection(snap: SystemSnapshot) -> some View {
+        let t = settings.l10n
         let color = Formatters.metricColor(percent: snap.cpuTotalUsage)
         return VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
@@ -221,12 +223,12 @@ public struct HUDRootView: View {
             // P-Core vs E-Core dual progress bars
             HStack(spacing: 10) {
                 miniClusterBar(
-                    label: "P核",
+                    label: t.pCoreShort,
                     percent: snap.pCoreUsage,
                     color: Formatters.metricColor(percent: snap.pCoreUsage)
                 )
                 miniClusterBar(
-                    label: "E核",
+                    label: t.eCoreShort,
                     percent: snap.eCoreUsage,
                     color: Color(red: 0.35, green: 0.78, blue: 1.0)
                 )
@@ -240,6 +242,7 @@ public struct HUDRootView: View {
     }
 
     private func gpuSection(snap: SystemSnapshot) -> some View {
+        let t = settings.l10n
         let color = Formatters.metricColor(percent: snap.gpuUsage)
         return VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
@@ -253,7 +256,7 @@ public struct HUDRootView: View {
                         .foregroundColor(color)
                 }
 
-                Text(String(format: "显存 %.0fM", snap.gpuMemoryMB))
+                Text(String(format: "%@ %.0fM", t.vramPrefix, snap.gpuMemoryMB))
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
                     .foregroundColor(.white.opacity(0.55))
 
@@ -275,12 +278,12 @@ public struct HUDRootView: View {
 
             HStack(spacing: 10) {
                 miniClusterBar(
-                    label: "渲染",
+                    label: t.renderShort,
                     percent: snap.gpuRenderUsage,
                     color: Color(red: 0.72, green: 0.52, blue: 1.0)
                 )
                 miniClusterBar(
-                    label: "Tiler",
+                    label: t.tilerShort,
                     percent: snap.gpuTilerUsage,
                     color: Color(red: 0.38, green: 0.85, blue: 1.0)
                 )
@@ -289,11 +292,12 @@ public struct HUDRootView: View {
     }
 
     private func memorySection(snap: SystemSnapshot) -> some View {
+        let t = settings.l10n
         let color = Formatters.metricColor(percent: snap.memoryUsagePercent)
         return VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .firstTextBaseline) {
                 Label {
-                    Text("内存")
+                    Text(t.memoryTitle)
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
                         .foregroundColor(.white)
                 } icon: {
@@ -302,7 +306,7 @@ public struct HUDRootView: View {
                         .foregroundColor(color)
                 }
 
-                Text("压力:\(snap.memoryPressure.rawValue)")
+                Text("\(t.pressurePrefix)\(t.pressureText(snap.memoryPressure))")
                     .font(.system(size: 10, weight: .semibold, design: .monospaced))
                     .foregroundColor(pressureColor(snap.memoryPressure))
 
@@ -336,9 +340,9 @@ public struct HUDRootView: View {
             .frame(height: 6)
 
             HStack {
-                Text(String(format: "联动:%.1fG", snap.memoryWiredGB))
+                Text(String(format: "%@%.1fG", t.wiredPrefix, snap.memoryWiredGB))
                 Spacer()
-                Text(String(format: "压缩:%.1fG", snap.memoryCompressedGB))
+                Text(String(format: "%@%.1fG", t.compressedPrefix, snap.memoryCompressedGB))
                 Spacer()
                 Text(String(format: "Swap:%.0fM", snap.swapUsedMB))
                     .foregroundColor(snap.swapUsedMB > 512 ? Color.orange : .white.opacity(0.60))
@@ -349,24 +353,25 @@ public struct HUDRootView: View {
     }
 
     private func thermalFanSection(snap: SystemSnapshot) -> some View {
-        HStack(spacing: 8) {
+        let t = settings.l10n
+        return HStack(spacing: 8) {
             Image(systemName: "fanblades")
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(Color(red: 0.38, green: 0.85, blue: 1.0))
 
             if snap.fans.isEmpty {
-                Text("风扇: 无风扇/被动散热")
+                Text(t.fanPassive)
                     .font(.system(size: 10.5, weight: .medium, design: .monospaced))
                     .foregroundColor(.white.opacity(0.72))
             } else {
                 let allZero = snap.fans.allSatisfy { $0.currentRPM == 0 }
                 if allZero {
-                    Text("风扇(\(snap.fans.count)): 0 RPM (静音停转)")
+                    Text(String(format: t.fanSilentZeroFormat, snap.fans.count))
                         .font(.system(size: 10.5, weight: .medium, design: .monospaced))
                         .foregroundColor(Color(red: 0.24, green: 0.92, blue: 0.75))
                 } else {
                     let rpmText = snap.fans.map { "#\($0.id + 1):\($0.currentRPM)" }.joined(separator: " ")
-                    Text("风扇 \(rpmText) RPM")
+                    Text("\(t.fanActivePrefix) \(rpmText) RPM")
                         .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
                         .foregroundColor(Color(red: 0.38, green: 0.85, blue: 1.0))
                 }
@@ -383,12 +388,13 @@ public struct HUDRootView: View {
     }
 
     private func networkDiskSection(snap: SystemSnapshot) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        let t = settings.l10n
+        return VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Image(systemName: "network")
                     .font(.system(size: 10.5, weight: .semibold))
                     .foregroundColor(Color(red: 0.38, green: 0.85, blue: 1.0))
-                Text("网络")
+                Text(t.networkTitle)
                     .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(.white.opacity(0.85))
                 Spacer()
@@ -404,7 +410,7 @@ public struct HUDRootView: View {
                 Image(systemName: "internaldrive")
                     .font(.system(size: 10.5, weight: .semibold))
                     .foregroundColor(Color(red: 0.24, green: 0.92, blue: 0.75))
-                Text(String(format: "磁盘 (余%.0fG)", snap.diskFreeGB))
+                Text(String(format: t.diskFreeFormat, snap.diskFreeGB))
                     .font(.system(size: 10.5, weight: .medium, design: .monospaced))
                     .foregroundColor(.white.opacity(0.75))
                 Spacer()
@@ -419,9 +425,10 @@ public struct HUDRootView: View {
     }
 
     private func topProcessesSection(snap: SystemSnapshot) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
+        let t = settings.l10n
+        return VStack(alignment: .leading, spacing: 3) {
             HStack {
-                Text("TOP 进程 (3s)")
+                Text(t.topProcessesTitle)
                     .font(.system(size: 10, weight: .bold, design: .monospaced))
                     .foregroundColor(.white.opacity(0.52))
                 Spacer()
@@ -431,7 +438,7 @@ public struct HUDRootView: View {
             }
 
             if snap.topProcesses.isEmpty {
-                Text("采样计算中...")
+                Text(t.samplingPlaceholder)
                     .font(.system(size: 10.5, weight: .regular, design: .monospaced))
                     .foregroundColor(.white.opacity(0.45))
             } else {
@@ -457,9 +464,10 @@ public struct HUDRootView: View {
     private func miniClusterBar(label: String, percent: Double, color: Color) -> some View {
         HStack(spacing: 5) {
             Text(label)
-                .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                .font(.system(size: 9.5, weight: .semibold, design: .monospaced))
                 .foregroundColor(.white.opacity(0.68))
-                .frame(width: 28, alignment: .leading)
+                .frame(width: 38, alignment: .leading)
+                .lineLimit(1)
 
             GeometryReader { geo in
                 ZStack(alignment: .leading) {

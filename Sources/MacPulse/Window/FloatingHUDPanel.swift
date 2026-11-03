@@ -74,7 +74,7 @@ public final class FloatingHUDPanel: NSPanel {
             settings.$displayMode,
             settings.$showPerCoreBars,
             settings.$showThermalAndPower,
-            Publishers.CombineLatest(settings.$showNetworkAndDisk, settings.$showTopProcesses)
+            Publishers.CombineLatest3(settings.$showNetworkAndDisk, settings.$showTopProcesses, settings.$language)
         )
         .sink { [weak self] _, _, _, _ in
             DispatchQueue.main.async {
